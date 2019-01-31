@@ -41,6 +41,19 @@
             var white = 0xffffff;
             var black = 0x000000;
 
+            //Moves
+            var F = 'y ==1';
+            var B = 'y == -1';
+            var U = 'z == 1';
+            var D = 'z == -1';
+            var L = 'x == 1';
+            var R = 'x  == -1';
+            var M = 'x == 0';
+            var E = 'z == 0';
+            var S = 'y == 0';
+
+            var moves = [F, B, U, L, D, R, M, E, S];
+
 
 			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
 			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
