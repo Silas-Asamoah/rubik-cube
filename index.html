@@ -14,17 +14,24 @@
 
 var THREE = THREE || {};
 
+//To Display; scene, camera and renderer
 var scene = new THREE.Scene();
+
+//Rendering
 var renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setClearColor( 0x777777 );
 document.body.appendChild( renderer.domElement ); 
 
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 ); 
+
+//Camera Positioning
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 ); //projection mode desigined to mimic the way the human eye see
 camera.up.set( 0, 0, 1 );
 camera.position.set( 3, 3, 3 );
-var controls = new THREE.OrbitControls( camera, renderer.domElement );
+var controls = new THREE.OrbitControls( camera, renderer.domElement ); //allows camera to orbit around the object
 
+
+//Colours on the Rubik Cube
 var red    = 0xff0000;
 var orange = 0xff7700;
 var yellow = 0xffff00;
@@ -33,6 +40,8 @@ var blue   = 0x0000ff;
 var white  = 0xffffff;
 var black  = 0x000000;
 
+
+//Moves
 var F = 'y == 1';
 var B = 'y == -1';
 var U = 'z == 1';
@@ -48,11 +57,13 @@ var moves = [ F, B, U, D, L, R, M, E, S ];
 var origin = new THREE.Object3D();
 scene.add( origin );
 
+
+//Positioning of the individual cubes
 var cubes = [];
 for ( var i=-1 ; i <= 1 ; i++ ) {
   for ( var j=-1 ; j <= 1 ; j++ ) {
     for ( var k=-1 ; k <= 1 ; k++ ) {
-      var geometry = new THREE.BoxGeometry( .95, .95, .95 );
+      var geometry = new THREE.BoxGeometry( .95, .95, .95 ); //Dimensioning of the cubes of the Rubik cube
       var materials = [];
       for ( var l=0 ; l < 6 ; l++ ) {
         materials.push( new THREE.MeshBasicMaterial( { color: black } ) );
@@ -73,9 +84,9 @@ for ( var i=-1 ; i <= 1 ; i++ ) {
   }
 }
 
-for ( var i=0 ; i < 27 ; i++ ) scene.add( cubes[i] );
+for ( var i=0 ; i < 27 ; i++ ) scene.add( cubes[i] ); //Rubik cubes are 27 in toral 
 
-var rotate = new THREE.Vector3( 0, 0, 0 );
+var rotate = new THREE.Vector3( 0, 0, 0 ); //point in 3D space
 var step = Math.PI/2 / 150;
 var current = 0;
 
@@ -88,7 +99,7 @@ function random() {
 function move( face, direction ) {
   rotate.set( 0, 0, 0 );
   for ( var i=0 ; i < 27 ; i++ ) {
-    if ( eval( 'cubes[i].position.' + face ) ) origin.add( cubes[i] );
+    if ( eval( 'cubes[i].position.' + face ) ) origin.add( cubes[i] ); //checks for the position of the cube and keeps it within the Rubik cube scene
   }
   eval( 'rotate.' + face.substring(0,1) + ' = ' + direction );
   current = Math.PI/2;
@@ -101,6 +112,8 @@ function recolor( cube ) {
   var v = [ new THREE.Vector3(1,0,0), new THREE.Vector3(-2,0,0),
             new THREE.Vector3(0,3,0), new THREE.Vector3(0,-4,0),
             new THREE.Vector3(0,0,5), new THREE.Vector3(0,0,-6)  ];
+
+//Rotation within range of colors
 
   for ( var i=0 ; i < 6 ; i++ ) {
     v[i].cross( rotate ).multiplyScalar( -1 );
