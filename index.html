@@ -62,11 +62,11 @@
             for (var i = -1; i <= 1; i++){
                 for (var j = -1; j <= 1; j++){
                     for (var k = -1; k <= 1; k++){
-                        var geometry = new THREE.BoxGeometry( .95, 95, .95 );
+                        var geometry = new THREE.BoxGeometry( .95, 95, .95 ); //Dimensioning of the Rubik Cube
 
                         var materials = [];
                         for (var m = 0; m < 6; m++){
-                            materials = new THREE.MeshBasicMaterial( { color: black } );
+                            materials = new THREE.MeshBasicMaterial( { color: black } ); //applys colour to material
                         }
                         var cube = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial(materials) );
                         cube.position.set(i, j, k);
@@ -84,6 +84,19 @@
                     }
                 }
             }
+
+            for (var i = 0; i < 27; i++) scene.add(cubes[i]); //Rubiks cubes are 27 in total
+
+            var rotate = new THREE.Vector3(0, 0, 0) //point in 3D space
+            var step =  Math.PI/2 / 150;
+            var current = 0;
+
+            function random(){
+                var index = Math.round( ( moves.length - 1) * Math.random() );
+                var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+                move( moves[index], plusOrMinus);
+            }
+
 
 
 			
